@@ -1,0 +1,44 @@
+#!/usr/bin/env bash
+set -e
+
+echo "🔍 Running Discourse Humanmark Plugin Linters..."
+echo ""
+echo "💡 Tip: You can also use 'just lint' for a better experience"
+echo ""
+
+# Check if dependencies are installed
+if [ ! -d "node_modules" ]; then
+  echo "📦 Installing npm dependencies..."
+  npm install
+fi
+
+if [ ! -d "vendor" ]; then
+  echo "💎 Installing Ruby dependencies..."
+  bundle install
+fi
+
+# Run JavaScript linting
+echo "📝 Linting JavaScript files..."
+npm run lint:js
+echo "✅ JavaScript linting passed"
+echo ""
+
+# Run SCSS linting
+echo "🎨 Linting SCSS files..."
+npm run lint:scss
+echo "✅ SCSS linting passed"
+echo ""
+
+# Run Ruby linting
+echo "💎 Linting Ruby files..."
+bundle exec rubocop
+echo "✅ Ruby linting passed"
+echo ""
+
+# Run format check
+echo "📐 Checking code formatting..."
+npm run format:check
+echo "✅ Code formatting check passed"
+echo ""
+
+echo "🎉 All linting checks passed!"

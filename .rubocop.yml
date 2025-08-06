@@ -1,0 +1,69 @@
+inherit_gem:
+  rubocop-discourse: stree-compat.yml
+
+AllCops:
+  TargetRubyVersion: 3.3
+  DisabledByDefault: false
+  NewCops: enable
+  Exclude:
+    - "vendor/**/*"
+    - "node_modules/**/*"
+    - "spec/fixtures/**/*"
+    - "db/schema.rb"
+
+# Plugin-specific overrides
+Discourse/NoAddReferenceOrAliasesActiveRecordMigration:
+  Enabled: false # We don't use migrations in this plugin
+
+Style/FrozenStringLiteralComment:
+  Enabled: true
+  EnforcedStyle: always
+
+Metrics/BlockLength:
+  Exclude:
+    - "spec/**/*"
+    - "plugin.rb" # Plugin initialization can be long
+
+Metrics/MethodLength:
+  Max: 40 # Allow reasonable method sizes for complex logic
+  Exclude:
+    - "app/controllers/discourse_humanmark/api_controller.rb" # Rate limiting is necessarily complex
+
+Metrics/ClassLength:
+  Max: 150 # Allow longer classes for API clients
+
+Metrics/AbcSize:
+  Max: 30 # Allow higher complexity for rate limiting and verification methods
+  Exclude:
+    - "app/controllers/discourse_humanmark/api_controller.rb" # Rate limiting is necessarily complex
+
+Metrics/CyclomaticComplexity:
+  Max: 10
+  Exclude:
+    - "app/controllers/discourse_humanmark/api_controller.rb" # Rate limiting is necessarily complex
+
+Metrics/PerceivedComplexity:
+  Max: 10
+  Exclude:
+    - "app/controllers/discourse_humanmark/api_controller.rb" # Rate limiting is necessarily complex
+
+Layout/LineLength:
+  Max: 120 # Slightly longer lines for readability
+
+# Naming conventions
+Naming/FileName:
+  Exclude:
+    - "plugin.rb" # Standard Discourse plugin filename
+
+# Documentation
+Style/Documentation:
+  Enabled: false # Not all classes need documentation comments
+
+# Allow using !! for boolean conversion
+Style/DoubleNegation:
+  Enabled: false
+
+# Allow both styles of string literals
+Style/StringLiterals:
+  EnforcedStyle: double_quotes
+  ConsistentQuotesInMultiline: true

@@ -1,0 +1,50 @@
+{
+  "name": "discourse-humanmark",
+  "version": "1.0.0-beta.1",
+  "description": "Humanmark verification plugin for Discourse",
+  "author": "Humanmark SPC",
+  "license": "GPL-2.0-or-later",
+  "scripts": {
+    "lint": "npm run lint:js && npm run lint:scss && npm run lint:ruby",
+    "lint:js": "eslint assets/javascripts --ext .js",
+    "lint:js:fix": "eslint assets/javascripts --ext .js --fix",
+    "lint:scss": "stylelint 'assets/stylesheets/**/*.scss'",
+    "lint:scss:fix": "stylelint 'assets/stylesheets/**/*.scss' --fix",
+    "lint:ruby": "bundle exec rubocop",
+    "lint:ruby:fix": "bundle exec rubocop -A",
+    "format": "npm run format:js && npm run format:scss",
+    "format:js": "prettier --write 'assets/javascripts/**/*.js'",
+    "format:scss": "prettier --write 'assets/stylesheets/**/*.scss'",
+    "format:check": "prettier --check 'assets/**/*.{js,scss}'",
+    "check": "npm run lint && npm run format:check",
+    "test": "bundle exec rake plugin:spec[discourse-humanmark]",
+    "test:backend": "bundle exec rake plugin:spec[discourse-humanmark]",
+    "test:frontend": "rake plugin:qunit[discourse-humanmark]",
+    "prepare": "cd .. && husky discourse-humanmark/.husky || true",
+    "pre-commit": "npm run check"
+  },
+  "devDependencies": {
+    "@discourse/lint-configs": "^2.30.0",
+    "eslint": "^9.32.0",
+    "prettier": "^3.4.2",
+    "stylelint": "^16.12.0",
+    "husky": "^9.1.7",
+    "lint-staged": "^16.1.2"
+  },
+  "lint-staged": {
+    "*.js": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "*.scss": [
+      "stylelint --fix",
+      "prettier --write"
+    ],
+    "*.rb": [
+      "bundle exec rubocop -A"
+    ],
+    "*.{json,yml,yaml,md}": [
+      "prettier --write"
+    ]
+  }
+}

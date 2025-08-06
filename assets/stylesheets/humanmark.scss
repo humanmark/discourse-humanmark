@@ -1,0 +1,29 @@
+// Humanmark for Discourse styles
+.humanmark-loading {
+  cursor: wait;
+  opacity: 0.7;
+}
+
+.humanmark-error {
+  color: var(--danger);
+  font-size: 0.9em;
+  margin-top: 0.5em;
+}
+
+.humanmark-message {
+  border-radius: 4px;
+  margin: 1em 0;
+  padding: 0.75em 1em;
+
+  &.humanmark-message-error {
+    background-color: var(--danger-low);
+    border: 1px solid var(--danger-medium);
+    color: var(--danger);
+  }
+
+  &.humanmark-message-info {
+    background-color: var(--primary-low);
+    border: 1px solid var(--primary-medium);
+    color: var(--primary);
+  }
+}

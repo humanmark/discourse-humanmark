@@ -1,0 +1,52 @@
+# Dependencies
+node_modules/
+vendor/
+.bundle/
+Gemfile.lock
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+.pnpm-store/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+.DS_Store
+.nova/
+
+# Testing
+coverage/
+.rspec_status
+spec/fixtures/tmp/
+
+# Logs
+*.log
+log/
+
+# Temporary files
+tmp/
+.cache/
+.eslintcache
+.stylelintcache
+.rubocop-*
+
+# Build artifacts
+*.min.js
+*.min.css
+dist/
+
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# Ruby
+*.gem
+*.rbc
+.config
+.yardoc
+_yardoc
+doc/

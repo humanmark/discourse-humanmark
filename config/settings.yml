@@ -1,0 +1,138 @@
+plugins:
+  humanmark_enabled:
+    default: false
+    client: true
+
+  # API Configuration
+  humanmark_api_key:
+    default: ""
+    secret: false
+    client: true
+
+  humanmark_api_secret:
+    default: ""
+    secret: true
+
+  humanmark_api_url:
+    default: "https://humanmark.io"
+    hidden: true
+    client: true
+
+  humanmark_domain:
+    default: ""
+    type: string
+    regex: "^$|^([a-z0-9]+(-[a-z0-9]+)*\\.)*[a-z0-9]+(-[a-z0-9]+)*$"
+    regex_error: "Must be a valid domain name (e.g., example.com or sub.example.com)"
+
+  # SDK Configuration
+  humanmark_sdk_url:
+    default: "https://cdn.jsdelivr.net/npm/@humanmark/sdk-js@1.0.1/dist/browser/index.js"
+    hidden: true
+    client: true
+
+  humanmark_sdk_integrity:
+    # Default hash is valid for @humanmark/sdk-js@1.0.1 at the default CDN URL above
+    # Update this hash if you change the SDK URL or version
+    default: "sha384-mysw5+aX4bvSFaHpoASX5uIByx2UWBd5AdEdu9l9IW+/YwX89y1JU6g8TRLKIigV"
+    hidden: true
+    client: true
+    regex: "^sha(256|384|512)-[A-Za-z0-9+/]{43,}={0,2}$"
+    regex_error: "Must be a valid SRI hash (e.g., sha384-...)"
+
+  # UI Configuration
+  humanmark_theme:
+    type: enum
+    default: "light"
+    choices:
+      - light
+      - dark
+      - auto
+    client: true
+
+  # Protection Settings
+  humanmark_protect_posts:
+    default: false
+    client: true
+
+  humanmark_protect_topics:
+    default: false
+    client: true
+
+  humanmark_protect_messages:
+    default: false
+    client: true
+
+  # Bypass Settings
+  humanmark_bypass_staff:
+    default: true
+    client: true
+
+  humanmark_bypass_trust_level:
+    default: 2
+    type: integer
+    client: true
+    min: 0
+    max: 5
+
+  # Performance Settings
+  humanmark_api_timeout_seconds:
+    default: 30
+    hidden: true
+    min: 5
+    max: 120
+
+  # Rate Limiting - Per User (for logged-in users)
+  humanmark_max_challenges_per_user_per_minute:
+    default: 3
+    min: 1
+    max: 20
+    client: false
+
+  humanmark_max_challenges_per_user_per_hour:
+    default: 15
+    min: 1
+    max: 100
+    client: false
+
+  # Rate Limiting - Per IP (for all users)
+  humanmark_max_challenges_per_ip_per_minute:
+    default: 10
+    min: 1
+    max: 50
+    client: false
+
+  humanmark_max_challenges_per_ip_per_hour:
+    default: 50
+    min: 1
+    max: 500
+    client: false
+
+  # Reverification Periods (in minutes)
+  humanmark_reverify_period_posts:
+    default: 30
+    min: 0
+    max: 10080 # 7 days
+    client: false
+
+  humanmark_reverify_period_topics:
+    default: 0 # Always reverify for new topics
+    min: 0
+    max: 10080
+    client: false
+
+  humanmark_reverify_period_messages:
+    default: 60
+    min: 0
+    max: 10080
+    client: false
+
+  # Data Retention
+  humanmark_flow_retention_days:
+    default: 30
+    min: 1
+    max: 365
+
+  # Debug Mode
+  humanmark_debug_mode:
+    default: false
+    client: false

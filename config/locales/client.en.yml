@@ -1,0 +1,18 @@
+en:
+  js:
+    humanmark:
+      title: "Humanmark Verification"
+      verifying: "Verifying..."
+      complete: "Verification complete"
+
+      errors:
+        timeout: "Verification timed out. Please try again."
+        validation: "Verification failed. Please try again."
+        forbidden: "You don't have permission to perform this action."
+        cancelled: "Verification was cancelled."
+        network: "Connection error. Please check your internet."
+        generic: "An error occurred. Please try again."
+
+      admin:
+        title: "Humanmark"
+        description: "Configure Humanmark verification for your Discourse site"
