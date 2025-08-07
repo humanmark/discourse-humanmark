@@ -1,6 +1,6 @@
 # Discourse Humanmark Plugin
 
-[![Version](https://img.shields.io/badge/version-1.0.0--beta.1-blue)](https://github.com/humanmark/discourse-humanmark)
+[![Version](https://img.shields.io/badge/version-1.0.0--beta.2-blue)](https://github.com/humanmark/discourse-humanmark)
 [![License](https://img.shields.io/badge/license-GPL--2.0-green)](LICENSE)
 
 **Know what's human in your Discourse forum.** In a world where AI passes every test, Humanmark provides the strongest signal of human intent through hardware-backed verification.

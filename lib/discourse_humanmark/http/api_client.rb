@@ -127,7 +127,7 @@ module DiscourseHumanmark
             "Accept" => "application/json",
             "hm-api-key" => SiteSetting.humanmark_api_key,
             "hm-api-secret" => SiteSetting.humanmark_api_secret,
-            "User-Agent" => "Discourse-Humanmark/1.0.0-beta.1"
+            "User-Agent" => "Discourse-Humanmark/1.0.0-beta.2"
           }
         end
       end

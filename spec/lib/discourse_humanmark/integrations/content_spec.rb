@@ -54,75 +54,94 @@ RSpec.describe DiscourseHumanmark::Integrations::Content do
     context "with regular posts" do
       it "returns :post for replies when post protection is enabled" do
         SiteSetting.humanmark_protect_posts = true
-        expect(described_class.determine_content_type(reply_post)).to eq(:post)
+        opts = { topic_id: topic.id }
+        expect(described_class.determine_content_type(reply_post, opts)).to eq(:post)
       end
 
       it "returns nil for replies when post protection is disabled" do
         SiteSetting.humanmark_protect_posts = false
-        expect(described_class.determine_content_type(reply_post)).to be_nil
+        opts = { topic_id: topic.id }
+        expect(described_class.determine_content_type(reply_post, opts)).to be_nil
       end
     end
 
     context "with topic creation" do
-      it "returns :topic for first post when topic protection is enabled" do
+      it "returns :topic for new topic when topic protection is enabled" do
         SiteSetting.humanmark_protect_topics = true
         SiteSetting.humanmark_protect_messages = false
-        expect(described_class.determine_content_type(first_post)).to eq(:topic)
+        opts = { archetype: "regular" }
+        expect(described_class.determine_content_type(first_post, opts)).to eq(:topic)
       end
 
-      it "returns nil for first post when topic protection is disabled" do
+      it "returns nil for new topic when topic protection is disabled" do
         SiteSetting.humanmark_protect_topics = false
         SiteSetting.humanmark_protect_messages = false
-        expect(described_class.determine_content_type(first_post)).to be_nil
+        opts = { archetype: "regular" }
+        expect(described_class.determine_content_type(first_post, opts)).to be_nil
       end
     end
 
     context "with private messages" do
-      it "returns :message for PM first post when message protection is enabled" do
+      it "returns :message for new PM when message protection is enabled" do
         SiteSetting.humanmark_protect_messages = true
         SiteSetting.humanmark_protect_topics = false
-        expect(described_class.determine_content_type(pm_first_post)).to eq(:message)
+        opts = { archetype: Archetype.private_message }
+        expect(described_class.determine_content_type(pm_first_post, opts)).to eq(:message)
       end
 
-      it "returns nil for PM first post when message protection is disabled" do
+      it "returns nil for new PM when message protection is disabled" do
         SiteSetting.humanmark_protect_messages = false
         SiteSetting.humanmark_protect_topics = false
-        expect(described_class.determine_content_type(pm_first_post)).to be_nil
+        opts = { archetype: Archetype.private_message }
+        expect(described_class.determine_content_type(pm_first_post, opts)).to be_nil
       end
 
       it "returns :post for PM replies when post protection is enabled" do
         SiteSetting.humanmark_protect_posts = true
-        expect(described_class.determine_content_type(pm_reply_post)).to eq(:post)
+        opts = { topic_id: pm_topic.id }
+        expect(described_class.determine_content_type(pm_reply_post, opts)).to eq(:post)
       end
 
       it "returns nil for PM replies when post protection is disabled" do
         SiteSetting.humanmark_protect_posts = false
-        expect(described_class.determine_content_type(pm_reply_post)).to be_nil
+        opts = { topic_id: pm_topic.id }
+        expect(described_class.determine_content_type(pm_reply_post, opts)).to be_nil
       end
     end
 
     context "with priority handling" do
-      it "prioritizes message over topic for PM first posts" do
+      it "returns message for new PM when both protections enabled" do
         SiteSetting.humanmark_protect_messages = true
         SiteSetting.humanmark_protect_topics = true
-        expect(described_class.determine_content_type(pm_first_post)).to eq(:message)
+        opts = { archetype: Archetype.private_message }
+        expect(described_class.determine_content_type(pm_first_post, opts)).to eq(:message)
       end
 
-      it "returns topic for regular first posts even when message protection is enabled" do
+      it "returns topic for new topic when both protections enabled" do
         SiteSetting.humanmark_protect_messages = true
         SiteSetting.humanmark_protect_topics = true
-        expect(described_class.determine_content_type(first_post)).to eq(:topic)
+        opts = { archetype: "regular" }
+        expect(described_class.determine_content_type(first_post, opts)).to eq(:topic)
       end
     end
 
     context "with edge cases" do
-      it "handles posts with nil topic gracefully" do
+      it "handles new topic creation during before_create_post hook" do
         post_without_topic = Fabricate.build(:post)
         post_without_topic.topic = nil
-        SiteSetting.humanmark_protect_messages = true
+        post_without_topic.post_number = nil
+        SiteSetting.humanmark_protect_topics = true
 
-        expect { described_class.determine_content_type(post_without_topic) }.not_to raise_error
-        expect(described_class.determine_content_type(post_without_topic)).to be_nil
+        # Simulating new topic creation (no topic_id in opts)
+        opts = { archetype: "regular" }
+        expect { described_class.determine_content_type(post_without_topic, opts) }.not_to raise_error
+        expect(described_class.determine_content_type(post_without_topic, opts)).to eq(:topic)
+      end
+
+      it "handles reply with topic_id in opts" do
+        SiteSetting.humanmark_protect_posts = true
+        opts = { topic_id: 123 }
+        expect(described_class.determine_content_type(reply_post, opts)).to eq(:post)
       end
     end
   end

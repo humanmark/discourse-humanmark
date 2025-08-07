@@ -2,7 +2,7 @@
 
 # name: discourse-humanmark
 # about: Know what's human in your forum - hardware-backed verification of human intent
-# version: 1.0.0-beta.1
+# version: 1.0.0-beta.2
 # authors: Humanmark SPC
 # url: https://github.com/humanmark/discourse-humanmark
 # required_version: 3.0.0
@@ -36,7 +36,7 @@ after_initialize do
     next unless SiteSetting.humanmark_enabled
     next unless SiteSetting.humanmark_protect_posts || SiteSetting.humanmark_protect_topics || SiteSetting.humanmark_protect_messages
 
-    content_type = DiscourseHumanmark::Integrations::Content.determine_content_type(post)
+    content_type = DiscourseHumanmark::Integrations::Content.determine_content_type(post, opts)
     next unless content_type
 
     DiscourseHumanmark::Integrations::Content.verify_action(
